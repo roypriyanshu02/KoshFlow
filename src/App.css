@@ -1,0 +1,40 @@
+/* कोषFLOW App-specific Styles */
+/* Modern, clean, and minimal app-level styling */
+
+#root {
+  min-height: 100vh;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Remove default app styles that conflict with our design system */
+.app-container {
+  min-height: 100vh;
+  width: 100%;
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+
+/* Enhanced focus styles for better accessibility */
+.app-container *:focus-visible {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 2px;
+  border-radius: calc(var(--radius) - 2px);
+}
+
+/* Loading states */
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

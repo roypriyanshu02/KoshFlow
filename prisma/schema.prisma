@@ -1,0 +1,650 @@
+// This is your Prisma schema file for KoshFlow - Smart Indian Accounting Platform
+// Learn more about Prisma: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ==========================================
+// ENUMS - Predefined value sets
+// ==========================================
+
+enum UserRole {
+  ADMIN      // Business owner with full control
+  ACCOUNTANT // Manages transactions and invoices
+  CUSTOMER   // External customer portal access
+  VENDOR     // External vendor portal access
+  VIEWER     // Read-only access
+}
+
+enum TransactionType {
+  SALES_ORDER    // Customer order
+  PURCHASE_ORDER // Vendor order
+  INVOICE        // Customer invoice
+  BILL           // Vendor bill
+  PAYMENT        // Payment transaction
+  RECEIPT        // Payment receipt
+  JOURNAL        // Manual journal entry
+}
+
+enum TransactionStatus {
+  DRAFT              // Being created
+  PENDING_APPROVAL   // Awaiting internal approval
+  APPROVED           // Internally approved
+  SENT               // Sent to customer/vendor
+  CHANGES_REQUESTED  // Customer/vendor requested changes
+  REJECTED           // Rejected by approver
+  ACCEPTED           // Accepted by customer/vendor
+  PARTIALLY_PAID     // Partial payment received
+  PAID               // Fully paid
+  CANCELLED          // Cancelled
+  OVERDUE           // Payment overdue
+}
+
+enum PaymentMethod {
+  CASH
+  BANK_TRANSFER
+  UPI
+  CREDIT_CARD
+  DEBIT_CARD
+  CHEQUE
+  WALLET
+  OTHER
+}
+
+enum PaymentStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  REFUNDED
+  CANCELLED
+}
+
+enum AccountType {
+  ASSET           // What the business owns
+  LIABILITY       // What the business owes
+  EQUITY          // Owner's stake
+  REVENUE         // Income
+  EXPENSE         // Costs
+  CONTRA_ASSET    // Reduces asset value
+  CONTRA_LIABILITY // Reduces liability
+}
+
+enum TaxType {
+  GST
+  CGST
+  SGST
+  IGST
+  VAT
+  TDS
+  OTHER
+}
+
+enum ReminderType {
+  PAYMENT_DUE      // Payment due reminder
+  OVERDUE          // Overdue payment
+  APPROVAL_PENDING // Approval needed
+  RECURRING        // Recurring transaction
+  CUSTOM           // Custom reminder
+}
+
+enum NotificationChannel {
+  EMAIL
+  SMS
+  WHATSAPP
+  IN_APP
+  PUSH
+}
+
+enum RecurrenceFrequency {
+  DAILY
+  WEEKLY
+  MONTHLY
+  QUARTERLY
+  YEARLY
+}
+
+// ==========================================
+// USER & AUTHENTICATION
+// ==========================================
+
+// Company/Organization that uses KoshFlow
+model Company {
+  id                String    @id @default(cuid())
+  name              String
+  email             String    @unique
+  phone             String?
+  gstin             String?   // GST identification number
+  pan               String?   // PAN number
+  address           String?
+  city              String?
+  state             String?
+  pincode           String?
+  country           String    @default("India")
+  logo              String?   // Logo URL
+  fiscalYearStart   Int       @default(4) // April = 4
+  currency          String    @default("INR")
+  timezone          String    @default("Asia/Kolkata")
+  isActive          Boolean   @default(true)
+  subscriptionTier  String?   // Free, Pro, Enterprise
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  // Relations
+  users             User[]
+  contacts          Contact[]
+  products          Product[]
+  accounts          Account[]
+  transactions      Transaction[]
+  taxes             Tax[]
+  settings          CompanySettings[]
+  auditLogs         AuditLog[]
+
+  @@index([email])
+  @@index([gstin])
+}
+
+// User accounts for login
+model User {
+  id                String    @id @default(cuid())
+  companyId         String
+  email             String
+  password          String    // Hashed password
+  name              String
+  phone             String?
+  role              UserRole  @default(VIEWER)
+  isActive          Boolean   @default(true)
+  isTwoFactorEnabled Boolean  @default(false)
+  lastLogin         DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  // Relations
+  company           Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  createdTransactions Transaction[] @relation("CreatedBy")
+  approvedTransactions Transaction[] @relation("ApprovedBy")
+  notifications     Notification[]
+  auditLogs         AuditLog[] @relation("PerformedBy")
+  sessions          Session[]
+
+  @@unique([email])
+  @@index([companyId, email])
+  @@index([companyId, role])
+}
+
+// Session management for authentication
+model Session {
+  id            String   @id @default(cuid())
+  userId        String
+  token         String   @unique
+  ipAddress     String?
+  userAgent     String?
+  expiresAt     DateTime
+  createdAt     DateTime @default(now())
+
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([token])
+  @@index([userId])
+}
+
+// ==========================================
+// MASTER DATA
+// ==========================================
+
+// Contacts - Customers, Vendors, or Both
+model Contact {
+  id                String    @id @default(cuid())
+  companyId         String
+  name              String
+  email             String?
+  phone             String?
+  gstin             String?   // GST number
+  pan               String?
+  isCustomer        Boolean   @default(false)
+  isVendor          Boolean   @default(false)
+  creditLimit       Decimal?
+  creditDays        Int       @default(30)
+  address           String?
+  city              String?
+  state             String?
+  pincode           String?
+  country           String    @default("India")
+  notes             String?
+  isActive          Boolean   @default(true)
+  portalAccessEnabled Boolean @default(false) // Can access customer/vendor portal
+  portalPassword    String?   // Hashed password for portal
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  // Relations
+  company           Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  transactions      Transaction[]
+  ledgerEntries     LedgerEntry[]
+  reminders         Reminder[]
+  portalActivities  PortalActivity[]
+
+  @@unique([companyId, email])
+  @@index([companyId, isCustomer])
+  @@index([companyId, isVendor])
+  @@index([email])
+}
+
+// Products/Services catalog
+model Product {
+  id                String    @id @default(cuid())
+  companyId         String
+  sku               String    // Stock keeping unit
+  name              String
+  description       String?
+  hsnCode           String?   // HSN/SAC code for GST
+  unit              String    @default("Nos")
+  salePrice         Decimal
+  purchasePrice     Decimal
+  openingStock      Decimal   @default(0)
+  currentStock      Decimal   @default(0)
+  minStockLevel     Decimal?
+  defaultTaxId      String?
+  isService         Boolean   @default(false)
+  isActive          Boolean   @default(true)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  // Relations
+  company           Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  defaultTax        Tax?      @relation(fields: [defaultTaxId], references: [id])
+  transactionItems  TransactionItem[]
+  stockMovements    StockMovement[]
+
+  @@unique([companyId, sku])
+  @@index([companyId, name])
+  @@index([hsnCode])
+}
+
+// Chart of Accounts - Accounting structure
+model Account {
+  id                String      @id @default(cuid())
+  companyId         String
+  code              String      // Account code (e.g., "1001")
+  name              String      // Account name (e.g., "Cash in Hand")
+  type              AccountType
+  parentId          String?     // For nested accounts
+  description       String?
+  openingBalance    Decimal     @default(0)
+  currentBalance    Decimal     @default(0)
+  isSystemAccount   Boolean     @default(false) // Cannot be deleted
+  isActive          Boolean     @default(true)
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+
+  // Relations
+  company           Company     @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  parent            Account?    @relation("AccountHierarchy", fields: [parentId], references: [id])
+  children          Account[]   @relation("AccountHierarchy")
+  ledgerEntries     LedgerEntry[]
+
+  @@unique([companyId, code])
+  @@index([companyId, type])
+  @@index([parentId])
+}
+
+// Tax configurations
+model Tax {
+  id                String    @id @default(cuid())
+  companyId         String
+  name              String    // e.g., "GST 18%"
+  type              TaxType
+  rate              Decimal   // Percentage
+  description       String?
+  isCompound        Boolean   @default(false)
+  isActive          Boolean   @default(true)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  // Relations
+  company           Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  products          Product[]
+  transactionItems  TransactionItem[]
+
+  @@unique([companyId, name])
+  @@index([companyId, type])
+}
+
+// ==========================================
+// TRANSACTIONS
+// ==========================================
+
+// Main transaction table - Orders, Invoices, Bills, Payments
+model Transaction {
+  id                String            @id @default(cuid())
+  companyId         String
+  transactionNumber String            // e.g., "INV-2024-001"
+  type              TransactionType
+  status            TransactionStatus @default(DRAFT)
+  contactId         String?
+  date              DateTime          @default(now())
+  dueDate           DateTime?
+  referenceNumber   String?           // External reference
+  parentId          String?           // Link to parent transaction (e.g., SO->Invoice)
+  
+  // Financial details
+  subtotal          Decimal           @default(0)
+  taxAmount         Decimal           @default(0)
+  discountAmount    Decimal           @default(0)
+  totalAmount       Decimal           @default(0)
+  paidAmount        Decimal           @default(0)
+  balanceAmount     Decimal           @default(0)
+  
+  // Additional info
+  notes             String?
+  termsAndConditions String?
+  attachments       Json?             // Array of file URLs
+  
+  // Workflow fields
+  approvalRequestedAt DateTime?
+  approvedAt        DateTime?
+  sentAt            DateTime?
+  acceptedAt        DateTime?
+  rejectedAt        DateTime?
+  rejectionReason   String?
+  
+  // User tracking
+  createdById       String
+  approvedById      String?
+  
+  // Timestamps
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  // Relations
+  company           Company           @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  contact           Contact?          @relation(fields: [contactId], references: [id])
+  parent            Transaction?      @relation("TransactionHierarchy", fields: [parentId], references: [id])
+  children          Transaction[]     @relation("TransactionHierarchy")
+  createdBy         User              @relation("CreatedBy", fields: [createdById], references: [id])
+  approvedBy        User?             @relation("ApprovedBy", fields: [approvedById], references: [id])
+  items             TransactionItem[]
+  payments          Payment[]
+  ledgerEntries     LedgerEntry[]
+  approvalHistory   ApprovalHistory[]
+  reminders         Reminder[]
+  recurringConfig   RecurringTransaction?
+
+  @@unique([companyId, transactionNumber])
+  @@index([companyId, type, status])
+  @@index([companyId, contactId])
+  @@index([date])
+  @@index([dueDate])
+  @@index([parentId])
+}
+
+// Line items in transactions
+model TransactionItem {
+  id                String    @id @default(cuid())
+  transactionId     String
+  productId         String?
+  description       String
+  quantity          Decimal
+  unit              String    @default("Nos")
+  rate              Decimal
+  discountPercent   Decimal   @default(0)
+  discountAmount    Decimal   @default(0)
+  taxId             String?
+  taxAmount         Decimal   @default(0)
+  amount            Decimal
+  notes             String?
+  sortOrder         Int       @default(0)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  // Relations
+  transaction       Transaction @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  product           Product?    @relation(fields: [productId], references: [id])
+  tax               Tax?        @relation(fields: [taxId], references: [id])
+
+  @@index([transactionId])
+  @@index([productId])
+}
+
+// Payment records
+model Payment {
+  id                String        @id @default(cuid())
+  transactionId     String
+  paymentNumber     String        // e.g., "PAY-2024-001"
+  amount            Decimal
+  paymentDate       DateTime      @default(now())
+  method            PaymentMethod
+  status            PaymentStatus @default(PENDING)
+  referenceNumber   String?       // Bank reference, UPI ID, etc.
+  notes             String?
+  gatewayResponse   Json?         // Payment gateway response
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  // Relations
+  transaction       Transaction   @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  ledgerEntries     LedgerEntry[]
+
+  @@index([transactionId])
+  @@index([paymentDate])
+  @@index([status])
+}
+
+// ==========================================
+// ACCOUNTING & REPORTING
+// ==========================================
+
+// General Ledger entries - Double-entry bookkeeping
+model LedgerEntry {
+  id                String    @id @default(cuid())
+  transactionId     String?
+  paymentId         String?
+  accountId         String
+  contactId         String?
+  date              DateTime
+  description       String
+  debitAmount       Decimal   @default(0)
+  creditAmount      Decimal   @default(0)
+  balance           Decimal   @default(0)
+  referenceType     String?   // Transaction type reference
+  referenceId       String?   // Transaction ID reference
+  isReversed        Boolean   @default(false)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  // Relations
+  transaction       Transaction? @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  payment           Payment?     @relation(fields: [paymentId], references: [id], onDelete: Cascade)
+  account           Account      @relation(fields: [accountId], references: [id])
+  contact           Contact?     @relation(fields: [contactId], references: [id])
+
+  @@index([accountId, date])
+  @@index([transactionId])
+  @@index([contactId])
+  @@index([date])
+}
+
+// Stock/Inventory movements
+model StockMovement {
+  id                String    @id @default(cuid())
+  productId         String
+  movementType      String    // IN, OUT, ADJUSTMENT
+  quantity          Decimal
+  referenceType     String?   // Transaction type
+  referenceId       String?   // Transaction ID
+  costPrice         Decimal?
+  balanceQuantity   Decimal
+  notes             String?
+  movementDate      DateTime  @default(now())
+  createdAt         DateTime  @default(now())
+
+  // Relations
+  product           Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId, movementDate])
+  @@index([referenceType, referenceId])
+}
+
+// ==========================================
+// WORKFLOW & AUTOMATION
+// ==========================================
+
+// Approval history tracking
+model ApprovalHistory {
+  id                String    @id @default(cuid())
+  transactionId     String
+  action            String    // APPROVED, REJECTED, CHANGES_REQUESTED
+  performedBy       String    // User name or contact email
+  performedByRole   String    // ADMIN, ACCOUNTANT, CUSTOMER, VENDOR
+  comments          String?
+  performedAt       DateTime  @default(now())
+
+  // Relations
+  transaction       Transaction @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+
+  @@index([transactionId])
+  @@index([performedAt])
+}
+
+// Portal activities for customer/vendor actions
+model PortalActivity {
+  id                String    @id @default(cuid())
+  contactId         String
+  action            String    // VIEWED, APPROVED, REJECTED, DOWNLOADED
+  resourceType      String    // INVOICE, BILL, STATEMENT
+  resourceId        String?
+  ipAddress         String?
+  userAgent         String?
+  performedAt       DateTime  @default(now())
+
+  // Relations
+  contact           Contact   @relation(fields: [contactId], references: [id], onDelete: Cascade)
+
+  @@index([contactId, performedAt])
+  @@index([resourceType, resourceId])
+}
+
+// Recurring transaction configurations
+model RecurringTransaction {
+  id                String              @id @default(cuid())
+  transactionId     String              @unique
+  frequency         RecurrenceFrequency
+  interval          Int                 @default(1) // Every N frequency
+  nextRunDate       DateTime
+  lastRunDate       DateTime?
+  endDate           DateTime?
+  isActive          Boolean             @default(true)
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+
+  // Relations
+  transaction       Transaction         @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+
+  @@index([nextRunDate, isActive])
+}
+
+// Payment reminders
+model Reminder {
+  id                String              @id @default(cuid())
+  transactionId     String?
+  contactId         String?
+  type              ReminderType
+  scheduledDate     DateTime
+  channel           NotificationChannel
+  message           String
+  isSent            Boolean             @default(false)
+  sentAt            DateTime?
+  responseReceived  String?
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+
+  // Relations
+  transaction       Transaction?        @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  contact           Contact?            @relation(fields: [contactId], references: [id], onDelete: Cascade)
+
+  @@index([scheduledDate, isSent])
+  @@index([transactionId])
+  @@index([contactId])
+}
+
+// ==========================================
+// SYSTEM & SETTINGS
+// ==========================================
+
+// Company-specific settings
+model CompanySettings {
+  id                String    @id @default(cuid())
+  companyId         String
+  key               String    // Setting key (e.g., "invoice.prefix")
+  value             Json      // Setting value
+  category          String    // INVOICE, BILL, PAYMENT, etc.
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  // Relations
+  company           Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@unique([companyId, key])
+  @@index([companyId, category])
+}
+
+// In-app notifications
+model Notification {
+  id                String    @id @default(cuid())
+  userId            String
+  title             String
+  message           String
+  type              String    // INFO, WARNING, ERROR, SUCCESS
+  actionUrl         String?
+  isRead            Boolean   @default(false)
+  readAt            DateTime?
+  createdAt         DateTime  @default(now())
+
+  // Relations
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, isRead])
+  @@index([createdAt])
+}
+
+// Audit logs for compliance
+model AuditLog {
+  id                String    @id @default(cuid())
+  companyId         String
+  userId            String?
+  action            String    // CREATE, UPDATE, DELETE, VIEW
+  entityType        String    // Transaction, Contact, Product, etc.
+  entityId          String
+  oldData           Json?
+  newData           Json?
+  ipAddress         String?
+  userAgent         String?
+  timestamp         DateTime  @default(now())
+
+  // Relations
+  company           Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  user              User?     @relation("PerformedBy", fields: [userId], references: [id])
+
+  @@index([companyId, timestamp])
+  @@index([entityType, entityId])
+  @@index([userId])
+}
+
+// AI Chat history for context
+model AIChatHistory {
+  id                String    @id @default(cuid())
+  sessionId         String    // Group related messages
+  userMessage       String
+  aiResponse        String
+  context           Json?     // Additional context used
+  createdAt         DateTime  @default(now())
+
+  @@index([sessionId])
+  @@index([createdAt])
+}
