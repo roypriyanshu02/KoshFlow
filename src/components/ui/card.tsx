@@ -4,23 +4,25 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const cardVariants = cva(
-  "rounded-2xl border bg-card text-card-foreground shadow-lg transition-all duration-300 ease-out backdrop-blur-sm",
+  "rounded-2xl border bg-card text-card-foreground shadow-lg transition-all duration-350 ease-out backdrop-blur-sm relative overflow-hidden",
   {
     variants: {
       variant: {
-        default: "border-border/60 shadow-lg hover:shadow-xl hover:border-primary/20",
-        elevated: "shadow-xl hover:shadow-2xl border-border/40",
-        outlined: "border-2 border-border shadow-md hover:shadow-lg hover:border-primary/30",
-        flat: "shadow-none border-border/30 bg-surface-1",
-        glass: "bg-glass-bg backdrop-blur-xl border-glass-border shadow-xl",
-        gradient: "bg-gradient-card shadow-xl hover:shadow-2xl border-border/30",
-        neon: "border-2 border-primary/50 shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/40 bg-gradient-to-br from-background to-primary/5",
-        success: "border-2 border-accent/50 shadow-lg shadow-accent/25 hover:shadow-xl hover:shadow-accent/40 bg-gradient-to-br from-background to-accent/5",
-        warning: "border-2 border-warning/50 shadow-lg shadow-warning/25 hover:shadow-xl hover:shadow-warning/40 bg-gradient-to-br from-background to-warning/5",
-        premium: "border-2 border-gradient-to-r from-primary to-accent shadow-xl shadow-primary/30 hover:shadow-2xl bg-gradient-to-br from-primary/5 via-background to-accent/5",
+        default: "border-border/50 shadow-lg hover:shadow-floating hover:border-primary/30 bg-gradient-card",
+        elevated: "shadow-xl hover:shadow-floating border-border/30 bg-gradient-surface",
+        outlined: "border-2 border-border shadow-md hover:shadow-lg hover:border-primary/40",
+        flat: "shadow-none border-border/20 bg-surface-1",
+        glass: "glass-card shadow-glass hover:shadow-floating",
+        gradient: "bg-gradient-card shadow-xl hover:shadow-floating border-border/20",
+        mesh: "mesh-card shadow-lg hover:shadow-floating border-border/30",
+        neon: "border-2 border-primary/60 shadow-lg shadow-glow hover:shadow-floating hover:shadow-glow bg-gradient-to-br from-background to-primary/8",
+        success: "border-2 border-accent/60 shadow-lg shadow-glow-accent hover:shadow-floating hover:shadow-glow-accent bg-gradient-to-br from-background to-accent/8",
+        warning: "border-2 border-warning/60 shadow-lg shadow-warning/30 hover:shadow-floating hover:shadow-warning/50 bg-gradient-to-br from-background to-warning/8",
+        premium: "glass-card-premium shadow-floating hover:shadow-glow border-primary/40",
+        frosted: "glass-frosted shadow-floating hover:shadow-glow",
       },
       interactive: {
-        true: "cursor-pointer hover:-translate-y-2 hover:scale-[1.02] hover:shadow-2xl transition-all duration-300 ease-out",
+        true: "cursor-pointer hover:-translate-y-3 hover:scale-[1.03] card-hover-lift transition-all duration-350 ease-out",
         false: "",
       },
     },
@@ -52,7 +54,7 @@ const CardHeader = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("flex flex-col space-y-2 p-6 pb-4", className)}
+    className={cn("flex flex-col space-y-3 p-8 pb-6", className)}
     {...props}
   />
 ));
@@ -65,7 +67,7 @@ const CardTitle = React.forwardRef<
   <h3
     ref={ref}
     className={cn(
-      "text-xl font-bold leading-tight tracking-tight text-card-foreground",
+      "text-2xl font-black leading-tight tracking-tight text-card-foreground",
       className
     )}
     {...props}
@@ -79,7 +81,7 @@ const CardDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <p
     ref={ref}
-    className={cn("text-sm text-muted-foreground leading-relaxed mt-1", className)}
+    className={cn("text-base text-muted-foreground leading-relaxed mt-2 font-medium", className)}
     {...props}
   />
 ));
@@ -89,7 +91,7 @@ const CardContent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn("p-6 pt-2", className)} {...props} />
+  <div ref={ref} className={cn("p-8 pt-4", className)} {...props} />
 ));
 CardContent.displayName = "CardContent";
 
@@ -99,7 +101,7 @@ const CardFooter = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("flex items-center p-6 pt-4 border-t border-border/50", className)}
+    className={cn("flex items-center p-8 pt-6 border-t border-border/30", className)}
     {...props}
   />
 ));

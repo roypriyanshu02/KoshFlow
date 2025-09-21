@@ -301,79 +301,85 @@ const LandingPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white relative overflow-hidden">
+    <div className="min-h-screen bg-background relative overflow-hidden">
       <NotificationContainer />
-      {/* Enhanced Modern Background Elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Sophisticated Geometric Patterns */}
-        <div className="absolute top-0 left-0 w-full h-full opacity-[0.03]">
-          <div className="absolute top-20 left-20 w-40 h-40 border-2 border-primary rotate-45 animate-float-slow"></div>
-          <div className="absolute top-40 right-32 w-32 h-32 border-2 border-accent rotate-12 animate-tilt"></div>
-          <div className="absolute bottom-40 left-40 w-36 h-36 border-2 border-primary -rotate-12 animate-float-slow"></div>
-          <div className="absolute bottom-20 right-20 w-44 h-44 border-2 border-accent rotate-45 animate-tilt"></div>
+      {/* Ultra-Modern Background with Sophisticated Mesh Gradients */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        {/* Advanced Mesh Background */}
+        <div className="absolute inset-0 mesh-bg opacity-40 animate-aurora" />
+        <div className="absolute inset-0 bg-gradient-mesh-bg opacity-30 animate-mesh-flow" />
+        
+        {/* Sophisticated Geometric Patterns with Glass Effects */}
+        <div className="absolute top-0 left-0 w-full h-full opacity-[0.08]">
+          <div className="absolute top-20 left-20 w-48 h-48 glass rounded-3xl rotate-45 animate-levitate"></div>
+          <div className="absolute top-40 right-32 w-40 h-40 glass-strong rounded-2xl rotate-12 animate-breathe"></div>
+          <div className="absolute bottom-40 left-40 w-44 h-44 glass rounded-3xl -rotate-12 animate-levitate" style={{animationDelay: '2s'}}></div>
+          <div className="absolute bottom-20 right-20 w-52 h-52 glass-strong rounded-2xl rotate-45 animate-breathe" style={{animationDelay: '1s'}}></div>
         </div>
 
-        {/* Enhanced Floating Elements with Staggered Animation */}
-        <div className="absolute top-32 left-16 w-3 h-3 bg-gradient-to-r from-primary to-accent rounded-full opacity-70 animate-pulse-subtle"></div>
-        <div className="absolute top-48 right-24 w-4 h-4 bg-gradient-to-r from-accent to-primary rounded-full opacity-50 animate-pulse-subtle" style={{animationDelay: '1s'}}></div>
-        <div className="absolute bottom-32 left-32 w-3 h-3 bg-gradient-to-r from-primary to-accent rounded-full opacity-60 animate-pulse-subtle" style={{animationDelay: '2s'}}></div>
-        <div className="absolute bottom-48 right-16 w-4 h-4 bg-gradient-to-r from-accent to-primary rounded-full opacity-70 animate-pulse-subtle" style={{animationDelay: '3s'}}></div>
+        {/* Enhanced Floating Particles with Advanced Animation */}
+        <div className="absolute top-32 left-16 w-4 h-4 bg-gradient-to-r from-primary to-accent rounded-full shadow-glow animate-particle-drift"></div>
+        <div className="absolute top-48 right-24 w-5 h-5 bg-gradient-to-r from-accent to-primary rounded-full shadow-glow-accent animate-particle-drift" style={{animationDelay: '1s'}}></div>
+        <div className="absolute bottom-32 left-32 w-4 h-4 bg-gradient-to-r from-primary to-accent rounded-full shadow-glow animate-particle-drift" style={{animationDelay: '2s'}}></div>
+        <div className="absolute bottom-48 right-16 w-5 h-5 bg-gradient-to-r from-accent to-primary rounded-full shadow-glow-accent animate-particle-drift" style={{animationDelay: '3s'}}></div>
         
-        {/* Gradient Orbs for Depth */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-primary/10 to-accent/10 rounded-full blur-3xl animate-float-slow"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-r from-accent/10 to-primary/10 rounded-full blur-3xl animate-float-slow" style={{animationDelay: '2s'}}></div>
+        {/* Ultra-Modern Gradient Orbs with Sophisticated Blur */}
+        <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-gradient-to-r from-primary/15 to-accent/15 rounded-full blur-3xl animate-aurora"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-gradient-to-r from-accent/15 to-primary/15 rounded-full blur-3xl animate-aurora" style={{animationDelay: '3s'}}></div>
+        <div className="absolute top-1/2 left-1/2 w-[400px] h-[400px] bg-gradient-to-r from-warning/10 to-info/10 rounded-full blur-3xl animate-aurora" style={{animationDelay: '6s'}}></div>
       </div>
-      {/* Navigation - Enhanced Glass Morphism Design */}
+      {/* Navigation - Ultra-Modern Glass Morphism Design */}
       <nav
-        className="fixed top-0 w-full bg-white/90 backdrop-blur-xl border-b border-border/30 z-50 shadow-lg"
+        className="fixed top-0 w-full glass-strong border-b border-glass-border-strong z-50 shadow-floating animate-glass-reflect"
         role="navigation"
         aria-label="Main navigation">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16 lg:h-20">
-            {/* Logo - Modern Enhanced Design */}
-            <div className="flex items-center space-x-3 group">
-              <div className="w-12 h-12 bg-gradient-to-br from-primary to-accent rounded-2xl flex items-center justify-center shadow-xl group-hover:shadow-2xl group-hover:scale-110 transition-all duration-300">
-                <BarChart3 className="h-7 w-7 text-white" />
+            {/* Logo - Ultra-Modern Enhanced Design */}
+            <div className="flex items-center space-x-4 group">
+              <div className="w-16 h-16 bg-gradient-to-br from-primary to-accent rounded-3xl flex items-center justify-center shadow-floating group-hover:shadow-glow group-hover:scale-125 transition-all duration-500 animate-breathe">
+                <BarChart3 className="h-9 w-9 text-white animate-levitate" />
               </div>
               <div className="flex flex-col">
-                <span className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+                <span className="text-3xl font-black gradient-text-hero">
                   कोषFLOW
                 </span>
-                <span className="text-xs text-muted-foreground hidden sm:block font-medium">
+                <span className="text-sm text-muted-foreground hidden sm:block font-bold">
                   Smart Financial Management
                 </span>
               </div>
             </div>
 
-            {/* Desktop Navigation - Better Spacing */}
-            <div className="hidden lg:flex items-center space-x-8">
+            {/* Desktop Navigation - Ultra-Modern Spacing */}
+            <div className="hidden lg:flex items-center space-x-12">
               <a
                 href="#features"
-                className="text-foreground/80 hover:text-foreground font-semibold transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:ring-offset-2 rounded-xl px-4 py-2.5 hover:bg-interactive-hover"
+                className="text-foreground/80 hover:text-foreground font-bold transition-all duration-350 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:ring-offset-2 rounded-2xl px-6 py-3 hover:bg-interactive-hover backdrop-blur-sm"
                 aria-label="View features">
                 Features
               </a>
               <a
                 href="#security"
-                className="text-foreground/80 hover:text-foreground font-semibold transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:ring-offset-2 rounded-xl px-4 py-2.5 hover:bg-interactive-hover"
+                className="text-foreground/80 hover:text-foreground font-bold transition-all duration-350 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:ring-offset-2 rounded-2xl px-6 py-3 hover:bg-interactive-hover backdrop-blur-sm"
                 aria-label="View security information">
                 Security
               </a>
               <a
                 href="#help"
-                className="text-foreground/80 hover:text-foreground font-semibold transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:ring-offset-2 rounded-xl px-4 py-2.5 hover:bg-interactive-hover"
+                className="text-foreground/80 hover:text-foreground font-bold transition-all duration-350 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:ring-offset-2 rounded-2xl px-6 py-3 hover:bg-interactive-hover backdrop-blur-sm"
                 aria-label="Get help and support">
                 Help Center
               </a>
             </div>
 
-            {/* CTA Buttons - Improved Design */}
-            <div className="hidden lg:flex items-center space-x-4">
+            {/* CTA Buttons - Ultra-Modern Design */}
+            <div className="hidden lg:flex items-center space-x-6">
               <Dialog open={isLoginOpen} onOpenChange={setIsLoginOpen}>
                 <DialogTrigger asChild>
                   <Button
-                    variant="ghost"
-                    className="text-foreground/80 hover:text-foreground hover:bg-interactive-hover font-semibold px-6 py-2.5 rounded-xl transition-all duration-300 focus:ring-4 focus:ring-primary/20 focus:outline-none"
+                    variant="glass"
+                    size="lg"
+                    className="text-foreground hover:text-foreground hover:bg-interactive-hover font-bold px-8 py-4 rounded-2xl transition-all duration-350 focus:ring-4 focus:ring-primary/20 focus:outline-none shadow-glass"
                     aria-label="Sign in to your account">
                     Sign in
                   </Button>
@@ -458,9 +464,9 @@ const LandingPage = () => {
               }}>
                 <DialogTrigger asChild>
                   <Button
-                    variant="gradient"
-                    size="lg"
-                    className="font-bold px-8 py-3 text-base shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 focus:ring-4 focus:ring-primary/20 focus:outline-none"
+                    variant="mesh"
+                    size="xl"
+                    className="font-black px-12 py-5 text-lg shadow-floating hover:shadow-glow transition-all duration-350 transform hover:scale-110 focus:ring-4 focus:ring-primary/20 focus:outline-none animate-glass-reflect"
                     aria-label="Create a new account">
                     Get started
                   </Button>
@@ -743,112 +749,113 @@ const LandingPage = () => {
         </div>
       </nav>
 
-      {/* Hero Section - Enhanced Modern Design */}
+      {/* Hero Section - Ultra-Modern Design with Sophisticated Effects */}
       <section
-        className="pt-36 pb-32 px-4 sm:px-6 lg:px-8 relative overflow-hidden"
+        className="pt-48 pb-40 px-4 sm:px-6 lg:px-8 relative overflow-hidden"
         role="banner"
         aria-labelledby="hero-title">
-        {/* Enhanced Hero Background Effects */}
+        {/* Ultra-Modern Hero Background Effects */}
         <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-gradient-to-br from-background via-surface-1/50 to-surface-2/30"></div>
-          <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-gradient-to-r from-primary/15 to-accent/15 rounded-full blur-3xl animate-float-slow"></div>
-          <div className="absolute top-3/4 right-1/4 w-[500px] h-[500px] bg-gradient-to-r from-accent/15 to-primary/15 rounded-full blur-3xl animate-float-slow" style={{animationDelay: '3s'}}></div>
-          <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-background/90 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-background via-surface-1/30 to-surface-2/20"></div>
+          <div className="absolute top-1/4 left-1/4 w-[800px] h-[800px] bg-gradient-to-r from-primary/20 to-accent/20 rounded-full blur-3xl animate-aurora"></div>
+          <div className="absolute top-3/4 right-1/4 w-[700px] h-[700px] bg-gradient-to-r from-accent/20 to-primary/20 rounded-full blur-3xl animate-aurora" style={{animationDelay: '4s'}}></div>
+          <div className="absolute top-1/2 left-1/2 w-[600px] h-[600px] bg-gradient-to-r from-warning/15 to-info/15 rounded-full blur-3xl animate-aurora" style={{animationDelay: '8s'}}></div>
+          <div className="absolute bottom-0 left-0 w-full h-60 bg-gradient-to-t from-background/95 to-transparent"></div>
         </div>
 
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center space-y-8">
-            {/* Enhanced Trust Badge */}
+            {/* Ultra-Modern Trust Badge */}
             <div
-              className="inline-flex items-center gap-3 px-6 py-3 rounded-2xl bg-glass-bg backdrop-blur-xl border border-glass-border shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 animate-fade-in-up"
+              className="inline-flex items-center gap-4 px-8 py-4 rounded-3xl glass-frosted shadow-floating hover:shadow-glow transition-all duration-350 hover:scale-110 animate-morph-in"
               role="banner"
               aria-label="Trust indicator">
-              <div className="flex items-center gap-1">
-                <Star className="h-5 w-5 text-amber-400 fill-current animate-icon-pop" />
-                <Star className="h-5 w-5 text-amber-400 fill-current animate-icon-pop" style={{animationDelay: '0.1s'}} />
-                <Star className="h-5 w-5 text-amber-400 fill-current animate-icon-pop" style={{animationDelay: '0.2s'}} />
-                <Star className="h-5 w-5 text-amber-400 fill-current animate-icon-pop" style={{animationDelay: '0.3s'}} />
-                <Star className="h-5 w-5 text-amber-400 fill-current animate-icon-pop" style={{animationDelay: '0.4s'}} />
+              <div className="flex items-center gap-2">
+                <Star className="h-6 w-6 text-amber-400 fill-current animate-breathe" />
+                <Star className="h-6 w-6 text-amber-400 fill-current animate-breathe" style={{animationDelay: '0.2s'}} />
+                <Star className="h-6 w-6 text-amber-400 fill-current animate-breathe" style={{animationDelay: '0.4s'}} />
+                <Star className="h-6 w-6 text-amber-400 fill-current animate-breathe" style={{animationDelay: '0.6s'}} />
+                <Star className="h-6 w-6 text-amber-400 fill-current animate-breathe" style={{animationDelay: '0.8s'}} />
               </div>
-              <span className="text-sm font-bold text-foreground">
+              <span className="text-base font-black text-foreground">
                 Trusted by 50K+ businesses
               </span>
             </div>
 
-            {/* Hero Title - Enhanced Typography */}
-            <div className="space-y-8">
+            {/* Hero Title - Ultra-Modern Typography */}
+            <div className="space-y-12">
               <h1
                 id="hero-title"
-                className="text-6xl sm:text-7xl lg:text-8xl xl:text-9xl font-black tracking-tight leading-[0.85] animate-fade-in-up">
-                <span className="bg-gradient-primary bg-clip-text text-black block hero-title">
+                className="text-7xl sm:text-8xl lg:text-9xl xl:text-[12rem] font-black tracking-tight leading-[0.8] animate-morph-in">
+                <span className="gradient-text-hero block animate-aurora">
                   कोषFLOW
                 </span>
-                <span className="text-foreground/90 text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-semibold tracking-normal block mt-6 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
+                <span className="text-foreground/90 text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-black tracking-normal block mt-8 animate-fade-in-up" style={{animationDelay: '0.3s'}}>
                   Smarter, faster finance for growing teams
                 </span>
               </h1>
 
-              {/* Enhanced Compelling Subtitle */}
-              <p className="text-2xl sm:text-3xl lg:text-4xl text-foreground/70 font-light max-w-5xl mx-auto leading-relaxed animate-fade-in-up" style={{animationDelay: '0.4s'}}>
+              {/* Ultra-Modern Compelling Subtitle */}
+              <p className="text-3xl sm:text-4xl lg:text-5xl text-foreground/70 font-light max-w-6xl mx-auto leading-relaxed animate-fade-in-up" style={{animationDelay: '0.5s'}}>
                 Accounting complexity ends today.
                 <br />
-                <span className="text-accent font-bold bg-gradient-to-r from-accent to-accent-hover bg-clip-text text-transparent">Take control</span> of your finances and time.
+                <span className="text-accent font-black">Take control</span> of your finances and time.
               </p>
             </div>
 
-            {/* Hero Description - Better Readability */}
-            <div className="max-w-4xl mx-auto">
-              <p className="text-lg sm:text-xl text-slate-600 leading-relaxed">
+            {/* Hero Description - Ultra-Modern Readability */}
+            <div className="max-w-5xl mx-auto glass-frosted rounded-3xl p-8 sm:p-12 animate-fade-in-up" style={{animationDelay: '0.7s'}}>
+              <p className="text-xl sm:text-2xl text-foreground/80 leading-relaxed font-medium">
                 At कोषFLOW, we believe financial management should work for
                 you—not the other way around. We've eliminated the complexity,
                 confusing interfaces, and outdated systems.
               </p>
-              <p className="text-base sm:text-lg text-slate-500 mt-4 leading-relaxed">
+              <p className="text-lg sm:text-xl text-muted-foreground mt-6 leading-relaxed font-medium">
                 Whether you're invoicing, tracking expenses, or generating
                 reports, कोषFLOW gives you the transparency and control to
                 manage your finances efficiently.
               </p>
             </div>
 
-            {/* Enhanced CTA Section */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-12 animate-fade-in-up" style={{animationDelay: '0.6s'}}>
+            {/* Ultra-Modern CTA Section */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-8 pt-16 animate-fade-in-up" style={{animationDelay: '0.9s'}}>
               <Button
-                variant="gradient"
+                variant="mesh"
                 size="xl"
-                className="font-black px-12 py-4 text-xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-110 focus:ring-4 focus:ring-primary/30 focus:outline-none group"
+                className="font-black px-16 py-6 text-2xl shadow-floating hover:shadow-glow transition-all duration-350 transform hover:scale-115 focus:ring-4 focus:ring-primary/30 focus:outline-none group animate-glass-reflect"
                 onClick={() => setIsSignupOpen(true)}
                 aria-label="Get started with कोषFLOW">
                 Get Started Free
-                <ArrowRight className="ml-3 h-6 w-6 group-hover:translate-x-1 transition-transform duration-300" />
+                <ArrowRight className="ml-4 h-8 w-8 group-hover:translate-x-2 transition-transform duration-350 animate-levitate" />
               </Button>
 
               <button
-                className="group flex items-center gap-3 text-foreground/70 hover:text-foreground font-bold px-8 py-4 rounded-2xl hover:bg-interactive-hover transition-all duration-300 focus:ring-4 focus:ring-primary/20 focus:outline-none hover:scale-105"
+                className="group flex items-center gap-4 text-foreground/70 hover:text-foreground font-black px-10 py-6 rounded-3xl glass-frosted hover:shadow-floating transition-all duration-350 focus:ring-4 focus:ring-primary/20 focus:outline-none hover:scale-110"
                 onClick={() =>
                   document
                     .getElementById("features")
                     ?.scrollIntoView({ behavior: "smooth" })
                 }
                 aria-label="Learn more about features">
-                <span className="text-lg">Learn more</span>
-                <div className="w-10 h-10 rounded-2xl border-2 border-border group-hover:border-primary/50 flex items-center justify-center group-hover:bg-primary/10 transition-all duration-300 group-hover:scale-110">
-                  <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
+                <span className="text-xl">Learn more</span>
+                <div className="w-12 h-12 rounded-3xl border-2 border-border group-hover:border-primary/60 flex items-center justify-center group-hover:bg-primary/20 transition-all duration-350 group-hover:scale-125 backdrop-blur-sm">
+                  <ArrowRight className="h-6 w-6 group-hover:translate-x-2 transition-transform duration-350 animate-levitate" />
                 </div>
               </button>
             </div>
 
-            {/* Enhanced Feature Highlights */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 pt-16 max-w-4xl mx-auto animate-fade-in-up" style={{animationDelay: '0.8s'}}>
-              <div className="flex items-center gap-4 text-foreground/80 group hover:text-foreground transition-colors duration-300">
-                <CheckCircle2 className="h-6 w-6 text-accent flex-shrink-0 group-hover:scale-110 transition-transform duration-300" />
+            {/* Ultra-Modern Feature Highlights */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-12 pt-20 max-w-6xl mx-auto animate-fade-in-up" style={{animationDelay: '1.1s'}}>
+              <div className="flex items-center gap-6 text-foreground/80 group hover:text-foreground transition-all duration-350 glass-frosted rounded-2xl p-6 hover:shadow-floating hover:scale-105">
+                <CheckCircle2 className="h-8 w-8 text-accent flex-shrink-0 group-hover:scale-125 transition-transform duration-350 animate-breathe" />
                 <span className="text-base font-bold">No setup fees</span>
               </div>
-              <div className="flex items-center gap-4 text-foreground/80 group hover:text-foreground transition-colors duration-300">
-                <CheckCircle2 className="h-6 w-6 text-accent flex-shrink-0 group-hover:scale-110 transition-transform duration-300" />
+              <div className="flex items-center gap-6 text-foreground/80 group hover:text-foreground transition-all duration-350 glass-frosted rounded-2xl p-6 hover:shadow-floating hover:scale-105">
+                <CheckCircle2 className="h-8 w-8 text-accent flex-shrink-0 group-hover:scale-125 transition-transform duration-350 animate-breathe" style={{animationDelay: '0.2s'}} />
                 <span className="text-base font-bold">30-day free trial</span>
               </div>
-              <div className="flex items-center gap-4 text-foreground/80 group hover:text-foreground transition-colors duration-300">
-                <CheckCircle2 className="h-6 w-6 text-accent flex-shrink-0 group-hover:scale-110 transition-transform duration-300" />
+              <div className="flex items-center gap-6 text-foreground/80 group hover:text-foreground transition-all duration-350 glass-frosted rounded-2xl p-6 hover:shadow-floating hover:scale-105">
+                <CheckCircle2 className="h-8 w-8 text-accent flex-shrink-0 group-hover:scale-125 transition-transform duration-350 animate-breathe" style={{animationDelay: '0.4s'}} />
                 <span className="text-base font-bold">24/7 support</span>
               </div>
             </div>

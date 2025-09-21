@@ -2,11 +2,13 @@
 
 A modern, full-stack financial management application built specifically for Indian businesses. कोषFLOW provides comprehensive accounting, invoicing, and financial reporting capabilities with a focus on simplicity, performance, and user experience.
 
+Video link: https://drive.google.com/drive/folders/1TPs8d6JEJBRN_s15u9QE6h_Y8dPQGv69?usp=sharing
+
 ## 🚀 Quick Start
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - npm or yarn
 - Git
 
@@ -21,29 +23,33 @@ Run the optimized setup script to automatically configure everything:
 ### Manual Setup
 
 1. **Install dependencies:**
+
    ```bash
    npm install
    ```
 
 2. **Set up environment:**
+
    ```bash
    cp .env.example .env
    # Edit .env with your database credentials
    ```
 
 3. **Set up database:**
+
    ```bash
    # Generate Prisma client
    npm run db:generate
-   
+
    # Push schema to database
    npm run db:push
-   
+
    # Seed with sample data (optional)
    npm run db:seed
    ```
 
 4. **Start the application:**
+
    ```bash
    # Start both frontend and backend
    npm run dev
@@ -57,19 +63,22 @@ Run the optimized setup script to automatically configure everything:
 ## 🔐 Authentication
 
 कोषFLOW features a streamlined authentication system:
+
 - **Ultra-simplified signup**: Only 4+ character passwords required
-- **Modal-based flow**: All authentication happens through landing page modals  
+- **Modal-based flow**: All authentication happens through landing page modals
 - **Intelligent fallbacks**: Mock data ensures smooth demo experience
 - **Auto-redirect**: Seamless navigation to dashboard after login
 
 ## ✨ Features
 
 ### 🏢 Multi-tenant Architecture
+
 - Company-based data isolation
 - Role-based access control (Admin, Accountant, Viewer)
 - Secure authentication with JWT
 
 ### 📊 Complete Accounting System
+
 - **Chart of Accounts** - Hierarchical account structure
 - **Double-entry Bookkeeping** - Automated ledger entries
 - **Transaction Management** - Sales orders, invoices, bills, payments
@@ -77,12 +86,14 @@ Run the optimized setup script to automatically configure everything:
 - **Tax Calculations** - GST, CGST, SGST, IGST compliance
 
 ### 👥 Contact Management
+
 - Customer and vendor management
 - Portal access for external users
 - Credit limits and payment terms
 - Contact activity tracking
 
 ### 📈 Financial Reporting
+
 - **Dashboard** - Real-time business overview
 - **Profit & Loss Statement** - Revenue and expense analysis
 - **Balance Sheet** - Assets, liabilities, and equity
@@ -91,6 +102,7 @@ Run the optimized setup script to automatically configure everything:
 - **Sales Reports** - Revenue analysis by customer/product
 
 ### 🔧 Advanced Features
+
 - **Payment Processing** - Multiple payment methods
 - **Recurring Transactions** - Automated recurring entries
 - **Audit Trail** - Complete activity logging
@@ -101,6 +113,7 @@ Run the optimized setup script to automatically configure everything:
 ## 🏗️ Architecture
 
 ### Frontend (React + TypeScript)
+
 - **Framework:** React 18 with TypeScript
 - **Build Tool:** Vite with optimized configuration
 - **UI Library:** Radix UI + Tailwind CSS
@@ -109,6 +122,7 @@ Run the optimized setup script to automatically configure everything:
 - **Performance:** Memoization, code splitting, bundle optimization
 
 ### Backend (Node.js + Express)
+
 - **Runtime:** Node.js with Express.js
 - **Database:** SQLite with Prisma ORM (optimized for development)
 - **Authentication:** JWT with bcrypt password hashing
@@ -117,6 +131,7 @@ Run the optimized setup script to automatically configure everything:
 - **Performance:** Request timeouts, memory monitoring, optimized middleware
 
 ### Database Schema
+
 - **Multi-tenant** design with company isolation
 - **Comprehensive** accounting entities
 - **Audit logging** for compliance
@@ -146,28 +161,33 @@ koshflow/
 ## 🔌 API Endpoints
 
 ### Authentication
+
 - `POST /api/auth/register` - Register new company
 - `POST /api/auth/login` - User login
 - `GET /api/auth/me` - Get current user
 
 ### Company Management
+
 - `GET /api/companies/profile` - Get company profile
 - `PUT /api/companies/profile` - Update company profile
 - `GET /api/companies/stats` - Get company statistics
 
 ### Contact Management
+
 - `GET /api/contacts` - List contacts
 - `POST /api/contacts` - Create contact
 - `PUT /api/contacts/:id` - Update contact
 - `DELETE /api/contacts/:id` - Delete contact
 
 ### Transaction Management
+
 - `GET /api/transactions` - List transactions
 - `POST /api/transactions` - Create transaction
 - `PUT /api/transactions/:id` - Update transaction
 - `PATCH /api/transactions/:id/status` - Update status
 
 ### Financial Reports
+
 - `GET /api/reports/dashboard` - Dashboard summary
 - `GET /api/reports/profit-loss` - P&L statement
 - `GET /api/reports/balance-sheet` - Balance sheet
@@ -242,17 +262,20 @@ ENABLE_DEBUG=true
 ### Production Checklist
 
 1. **Environment Variables**
+
    - Set `NODE_ENV=production`
    - Use strong JWT secret
    - Configure production database
    - Set proper CORS origins
 
 2. **Database**
+
    - Set up production PostgreSQL
    - Run migrations: `npm run db:migrate`
    - Configure connection pooling
 
 3. **Security**
+
    - Enable HTTPS
    - Configure firewall
    - Set up monitoring
@@ -293,6 +316,7 @@ This project is licensed under the MIT License.
 ## 🆘 Support
 
 For support and questions:
+
 - Create an issue on GitHub
 - Check the documentation
 - Review the API documentation
